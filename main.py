@@ -10,6 +10,7 @@ from forms.login import LoginForm
 from forms.job import MakeJobForm
 
 from api import jobs_api
+from flask_restful import reqparse, abort, Api, Resource
 
 
 def get_app(namespace):
@@ -105,4 +106,5 @@ def get_app(namespace):
 if __name__ == '__main__':
     app = get_app(__name__)
     db_session.global_init('db/users.db')
+    api = Api(app)
     app.run()
