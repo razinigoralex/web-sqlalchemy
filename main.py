@@ -9,19 +9,21 @@ from forms.user import RegisterForm
 from forms.login import LoginForm
 from forms.job import MakeJobForm
 
-from api import jobs_api
-from flask_restful import reqparse, abort, Api, Resource
+from flask_restful import Api
+from api.users_resource import UsersResource, UsersListResource
+
+from api.jobs_api import blueprint as jobs_blueprint
 
 
 def get_app(namespace):
     app = Flask(namespace)
     app.config['SECRET_KEY'] = 'pizza_mozzarella'
-    
-    app.register_blueprint(jobs_api.blueprint)
 
     login_manager = LoginManager()
     login_manager.init_app(app)
-
+    
+    app.register_blueprint(jobs_blueprint)
+    
     @login_manager.user_loader
     def load_user(user_id):
         db_sess = db_session.create_session()
@@ -103,8 +105,14 @@ def get_app(namespace):
     return app
 
 
+def make_api(api):
+    api.add_resource(UsersResource, '/api/v2/users/<int:user_id>')
+    api.add_resource(UsersListResource, '/api/v2/users')
+    
+
 if __name__ == '__main__':
     app = get_app(__name__)
     db_session.global_init('db/users.db')
     api = Api(app)
+    make_api(api)
     app.run()
