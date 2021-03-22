@@ -36,7 +36,7 @@ class UsersListResource(Resource):
     def post(self):
         args = parser.parse_args()
         db_sess = db_session.create_session()
-        users = User(
+        user = User(
             id=args['id'],
             surname=args['surname'],
             name=args['name'],
@@ -46,6 +46,6 @@ class UsersListResource(Resource):
             address=args['address'],
             email=args['email'],
         )
-        db_sess.add(users)
+        db_sess.add(user)
         db_sess.commit()
         return {404: 'OK'}

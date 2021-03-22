@@ -10,9 +10,10 @@ from forms.login import LoginForm
 from forms.job import MakeJobForm
 
 from flask_restful import Api
-from api.users_resource import UsersResource, UsersListResource
 
 from api.jobs_api import blueprint as jobs_blueprint
+from api.users_resource import UsersResource, UsersListResource
+from api.jobs_resource import JobsResource, JobsListResource
 
 
 def get_app(namespace):
@@ -108,7 +109,9 @@ def get_app(namespace):
 def make_api(api):
     api.add_resource(UsersResource, '/api/v2/users/<int:user_id>')
     api.add_resource(UsersListResource, '/api/v2/users')
-    
+    api.add_resource(JobsResource, '/api/v2/jobs/<int:job_id>')
+    api.add_resource(JobsListResource, '/api/v2/jobs')
+
 
 if __name__ == '__main__':
     app = get_app(__name__)
