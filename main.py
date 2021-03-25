@@ -34,6 +34,12 @@ def get_app(namespace):
     def main():
         return render_template('base.html')
 
+    @app.route('/job_list', methods=['GET'])
+    def job_list():
+        db_sess = db_session.create_session()
+        jobs = db_sess.query(Jobs).all()
+        return render_template('job_list.html', title='Список работ', jobs=jobs)
+
     @app.route('/register', methods=['POST', 'GET'])
     def register():
         form = RegisterForm()
