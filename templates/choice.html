@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Моё предложение - {{planet_name}}</h1>
+<ul>
+{% for line in content %}
+    <li>{{line}};</li>
+{% endfor %}
+</ul>
+{% endblock %}

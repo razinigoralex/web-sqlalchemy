@@ -4,6 +4,7 @@ from flask_login import LoginManager, login_user, logout_user, login_required
 from data import db_session
 from data.users import User
 from data.jobs import Jobs
+from data.planet_info import planet_info
 
 from forms.user import RegisterForm
 from forms.login import LoginForm
@@ -33,6 +34,11 @@ def get_app(namespace):
     @app.route('/')
     def main():
         return render_template('base.html')
+    
+    @app.route('/choice/<string:planet_name>', methods=['GET'])
+    def choice(planet_name):
+        content = planet_info[planet_name]
+        return render_template('choice.html', title='Варианты выбора', planet_name=planet_name, content=content)
 
     @app.route('/job_list', methods=['GET'])
     def job_list():
